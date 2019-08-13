@@ -31,6 +31,7 @@
 *.out
 *.app
 
+server_cpp/build
 
 # Javascript
 

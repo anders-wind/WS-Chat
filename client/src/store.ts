@@ -11,7 +11,7 @@ const host =
     `http://${process.env.VUE_APP_SERVER}:${process.env.VUE_APP_SERVERPORT}/`;
 const debug = process.env.environment !== 'production';
 
-export const socket = io.connect(host);
+export const socket = io.connect(host, {transports: ['websocket', 'polling']});
 
 // Store specifics
 export class State {
