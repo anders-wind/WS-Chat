@@ -2,16 +2,25 @@
   "name": "server",
   "version": "1.0.0",
   "description": "P2P connecter",
-  "main": "src/index.js",
+  "main": "dist/server.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon ./index.js",
+    "build": "tsc",
+    "watch-ts": "tsc -w",
+    "watch-node": "nodemon dist/server.js",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript, Node\" -c \"yello.bold, cyan.bold\" \"yarn run watch-ts\" \"yarn run watch-node\"",
     "lint": "tslint --project ."
   },
-  "devDependencies": {
-    "nodemon": "^1.19.1"
-  },
   "dependencies": {
-    "express": "^4.17.1"
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "socket.io": "^2.2.0",
+    "tslint": "^5.18.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/socket.io": "^2.1.2",
+    "concurrently": "^4.1.1",
+    "nodemon": "^1.19.1"
   }
 }

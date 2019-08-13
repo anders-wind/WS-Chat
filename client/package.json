@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "dotenv": "^8.0.0",
+    "simple-peer": "^9.5.0",
+    "socket.io-client": "^2.2.0",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",
@@ -17,6 +20,7 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@types/socket.io-client": "^1.4.32",
     "@types/jest": "^23.1.4",
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-typescript": "^3.10.0",
