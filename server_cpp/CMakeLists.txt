@@ -29,10 +29,7 @@ else()
     message("Cannot find ccache")
 endif()
 
-set(cpprestsdk_DIR /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/cmake/)
-find_package(cpprestsdk REQUIRED)
-find_package(Boost REQUIRED system)
-
+add_subdirectory(third_party/seasocks)
 # Project setup:
 
 include(GNUInstallDirs)
@@ -44,8 +41,7 @@ add_executable(${MODULE_NAME} ${SOURCES})
 
 target_link_libraries (${MODULE_NAME} 
     PRIVATE 
-    cpprestsdk::cpprest
-    ${Boost_SYSTEM_LIBRARY})
+    seasocks)
 
 target_compile_features(${MODULE_NAME} 
     PUBLIC cxx_std_17)

@@ -1,28 +1,42 @@
-#include <iostream>
-#include <cpprest/ws_client.h>
+#include "seasocks/util/Json.h"
+#include "seasocks/PrintfLogger.h"
+#include "seasocks/Server.h"
+#include "seasocks/WebSocket.h"
 
-using namespace std;
-using namespace web;
-using namespace web::websockets::client;
+#include <set>
+
+namespace server_cpp
+{
+
+struct ChatHandler : seasocks::WebSocket::Handler
+{
+    std::set<seasocks::WebSocket *> connections;
+
+    void onConnect(seasocks::WebSocket *socket) override
+    {
+        connections.insert(socket);
+    }
+    void onData(seasocks::WebSocket *, const char *data) override
+    {
+        for (auto c : connections)
+            c->send(data);
+    }
+    void onDisconnect(seasocks::WebSocket *socket) override
+    {
+        connections.erase(socket);
+    }
+};
+
+void chat()
+{
+    seasocks::Server server(std::make_shared<seasocks::PrintfLogger>());
+    server.addWebSocketHandler("/chat", std::make_shared<ChatHandler>());
+    server.serve("web", 3000);
+}
+
+} // namespace server_cpp
 
 int main()
 {
-    websocket_client client;
-    client.connect("ws://echo.websocket.org").wait();
-
-    websocket_outgoing_message out_msg;
-    out_msg.set_utf8_message("test");
-    client.send(out_msg).wait();
-
-    client.receive().then([](websocket_incoming_message in_msg) {
-                        return in_msg.extract_string();
-                    })
-        .then([](string body) {
-            cout << body << endl; // test
-        })
-        .wait();
-
-    client.close().wait();
-
-    return 0;
+    server_cpp::chat();
 }

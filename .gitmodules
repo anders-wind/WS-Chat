@@ -1,0 +1,3 @@
+[submodule "server_cpp/third_party/seasocks"]
+	path = server_cpp/third_party/seasocks
+	url = git@github.com:mattgodbolt/seasocks.git
