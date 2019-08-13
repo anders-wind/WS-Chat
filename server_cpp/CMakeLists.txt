@@ -1,4 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
+SET(SOLUTION_NAME "server_cpp")
+SET(MODULE_NAME "server_cpp")
+SET(MODULE_NAME_CONFIG "server_cpp-config")
+message(STATUS "Project: " ${MODULE_NAME})
+
+project(${MODULE_NAME}
+    VERSION 0.0.1
+    LANGUAGES C CXX)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -20,16 +29,11 @@ else()
     message("Cannot find ccache")
 endif()
 
+set(cpprestsdk_DIR /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/cmake/)
+find_package(cpprestsdk REQUIRED)
+find_package(Boost REQUIRED system)
+
 # Project setup:
-
-SET(SOLUTION_NAME "server_cpp")
-SET(MODULE_NAME "server_cpp")
-SET(MODULE_NAME_CONFIG "server_cpp-config")
-message(STATUS "Project: " ${MODULE_NAME})
-
-project(${MODULE_NAME}
-    VERSION 0.0.1
-    LANGUAGES C CXX)
 
 include(GNUInstallDirs)
 
@@ -39,7 +43,9 @@ file(GLOB_RECURSE HEADERS "include/*.hpp")
 add_executable(${MODULE_NAME} ${SOURCES})
 
 target_link_libraries (${MODULE_NAME} 
-    PUBLIC)
+    PRIVATE 
+    cpprestsdk::cpprest
+    ${Boost_SYSTEM_LIBRARY})
 
 target_compile_features(${MODULE_NAME} 
     PUBLIC cxx_std_17)
