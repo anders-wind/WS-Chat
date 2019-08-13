@@ -30,6 +30,9 @@ else()
 endif()
 
 add_subdirectory(third_party/seasocks)
+set(RAPIDJSON_INCLUDE ${CMAKE_SOURCE_DIR}/third_party/rapidjson/include)
+message( "-- RAPIDJSON_INCLUDE ${RAPIDJSON_INCLUDE}")
+
 # Project setup:
 
 include(GNUInstallDirs)
@@ -49,7 +52,9 @@ target_compile_features(${MODULE_NAME}
 target_include_directories(${MODULE_NAME}
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    PRIVATE
+    ${RAPIDJSON_INCLUDE})
 
 target_compile_definitions(${MODULE_NAME} 
     PRIVATE -D_EXPORT)
