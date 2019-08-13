@@ -4,6 +4,10 @@
 #include <unordered_map>
 #include <string>
 
+/**
+ * ChatService is a websocket handler. It will handle clients' request for joining the chat, 
+ *  and sending messages to other clients if they exist.
+ **/
 struct ChatService : seasocks::WebSocket::Handler
 {
 private:
@@ -17,10 +21,16 @@ public:
     {
     }
 
-    void onConnect(seasocks::WebSocket *socket) override
+    /**
+     * Handle a new client connecting. Does nothing since joinChat message will handle the setup.
+     **/
+    void onConnect(seasocks::WebSocket *) override
     {
-        connections.insert({socket, ""});
     }
+
+    /**
+     * Handles incoming data on the ws connection, and redirects the call to the correct method.
+     **/
     void onData(seasocks::WebSocket *socket, const char *data) override
     {
         logger->info(data);
@@ -39,6 +49,10 @@ public:
             sendMessage(socket, message, data);
         }
     }
+
+    /**
+     * Removes socket and name mix when the client disconnects
+     **/
     void onDisconnect(seasocks::WebSocket *socket) override
     {
         names.erase(connections.at(socket));
@@ -46,12 +60,20 @@ public:
     }
 
 private:
+    /**
+     * Setup the mapping from names->sockets, sockets->names.
+     * This allows us to get which connection to write to later
+     **/
     void joinChat(seasocks::WebSocket *socket, const rapidjson::Value &message)
     {
         auto username = message.GetString();
         names.insert({username, socket});
+        connections.insert({socket, username});
     }
 
+    /**
+     * Forwards the chatMessage to the specified toUser, will also send chatMessage to fromUser
+     **/
     void sendMessage(seasocks::WebSocket *socket, const rapidjson::Value &message, const char *data)
     {
         auto toUser = message.GetObject()["toUser"].GetString();
