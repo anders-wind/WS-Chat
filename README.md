@@ -4,6 +4,12 @@ A simple websocket based chat system.
 ## Structure
 The solution consists of two projects: a [VueJS](https://vuejs.org/) client project written in typescript using [Vuetify](https://vuetifyjs.com/en/) components, and a server written in C++ using the [seasocks](https://github.com/mattgodbolt/seasocks) and [rapidjson](http://rapidjson.org/) frameworks.
 
+The core of the solution is the following files: 
+- `client/src/store.ts`
+- `client/src/components/ChatComponent.vue`
+- `client/src/services/WebSocketService.ts`
+- `server_cpp/include/server_cpp/chat_service.hpp`
+
 The chat system works by enabling a user to write his/her name, joining the chat service. At this point the user can then write messages to other users by specifying a username and message. The system is ofcourse bare-bones and does not contain a lot of safety mechanism that one would normally in a chat system.
 
 ## How to Build/Run
