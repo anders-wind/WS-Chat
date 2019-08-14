@@ -3,6 +3,7 @@ import Vue from 'vue';
 import Vuex, {ActionContext} from 'vuex';
 import {ActionTree, GetterTree, MutationTree} from 'vuex';
 import {ChatMessage} from './models/ChatMessage';
+import {WebSocketService} from './services/WebSocketService';
 
 Vue.use(Vuex);
 
@@ -11,9 +12,7 @@ const host =
     `ws://${process.env.VUE_APP_SERVER}:${process.env.VUE_APP_SERVERPORT}/`;
 const debug = process.env.environment !== 'production';
 
-// export const socket = io.connect(host, {transports: ['websocket',
-// 'polling']});
-export const socket = new WebSocket(host);
+export const socket = new WebSocketService(host);
 
 // Store specifics
 export class State {
@@ -45,18 +44,16 @@ const mutationTree: MutationTree<State> = {
 const actionTree: ActionTree<State, any> = {
   async joinChat({commit}, userName: string) {
     commit('setUser', userName);
-    socket.onmessage = (ev: MessageEvent) => {
-      const msg = JSON.parse(ev.data);
-      if (msg.type === 'sendMessage') {
-        commit('addMessage', msg.message);
-      } else if (msg.type === 'errorMessage') {
-        commit('setError', msg.message);
-      }
-    };
-    socket.send(JSON.stringify({type: 'joinChat', message: userName}));
+    socket.on('sendMessage', (message: string) => {
+      commit('addMessage', message);
+    });
+    socket.on('errorMessage', (message: string) => {
+      commit('setError', message);
+    });
+    socket.emit('joinChat', userName);
   },
   async sendMessage({}: ActionContext<State, any>, message: ChatMessage) {
-    socket.send(JSON.stringify({type: 'sendMessage', message}));
+    socket.emit('sendMessage', message);
   },
 };
 
