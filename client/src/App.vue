@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span>P2P</span>
+        <span>WS</span>
         <span class="font-weight-light">Chat</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
