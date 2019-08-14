@@ -31,7 +31,7 @@ yarn serve
 
 ### Server
 ```
-cd server
+cd server_cpp
 ./install_deps.sh
 mkdir -p build
 cd build
