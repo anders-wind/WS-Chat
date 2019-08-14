@@ -1,9 +1,16 @@
-# P2P-Chat
+# WS-Chat
 A simple websocket based chat system.
+
+## Structure
+The solution consists of two projects: a [VueJS](https://vuejs.org/) client project written in typescript using [Vuetify](https://vuetifyjs.com/en/) components, and a server written in C++ using the [seasocks](https://github.com/mattgodbolt/seasocks) and [rapidjson](http://rapidjson.org/) frameworks.
+
+The chat system works by enabling a user to write his/her name, joining the chat service. At this point the user can then write messages to other users by specifying a username and message. The system is ofcourse bare-bones and does not contain a lot of safety mechanism that one would normally in a chat system.
 
 ## How to Build/Run
 
-Make sure to run: `git submodule init && git submodule update`
+Make sure to run: `git submodule init && git submodule update` after cloning the repository.
+
+I have tested the system on Ubuntu 19.04.
 
 ### Client
 ```
@@ -26,3 +33,4 @@ cmake --build .
 - Open two browser tabs at localhost:8080, 
 - input usernames in each, press "Join Chat"
 - input which user to write to and a message, press "Send Message"
+

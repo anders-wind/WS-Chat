@@ -72,7 +72,7 @@ private:
     }
 
     /**
-     * Forwards the chatMessage to the specified toUser, will also send chatMessage to fromUser
+     * Forwards the chatMessage to the specified 'toUser', will also send chatMessage to 'fromUser'
      **/
     void sendMessage(seasocks::WebSocket *socket, const rapidjson::Value &message, const char *data)
     {
