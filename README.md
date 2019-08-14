@@ -31,8 +31,10 @@ yarn serve
 
 ### Server
 ```
-mkdir -p server_cpp/build
-cd server/build
+cd server
+./install_deps.sh
+mkdir -p build
+cd build
 cmake ..
 cmake --build .
 ./server_cpp
