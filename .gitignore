@@ -107,3 +107,7 @@ typings/
 .cache
 
 **/dist
+
+
+# vs-code specifics
+.vscode
