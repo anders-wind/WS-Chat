@@ -31,6 +31,7 @@
 *.out
 *.app
 
+server_cpp/build
 
 # Javascript
 
@@ -106,3 +107,7 @@ typings/
 .cache
 
 **/dist
+
+
+# vs-code specifics
+.vscode

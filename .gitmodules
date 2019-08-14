@@ -1,0 +1,6 @@
+[submodule "server_cpp/third_party/seasocks"]
+	path = server_cpp/third_party/seasocks
+	url = git@github.com:mattgodbolt/seasocks.git
+[submodule "server_cpp/third_party/rapidjson"]
+	path = server_cpp/third_party/rapidjson
+	url = git@github.com:Tencent/rapidjson.git

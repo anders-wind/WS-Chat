@@ -1,17 +1,18 @@
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import Vue from 'vue';
 import Vuex, {ActionContext} from 'vuex';
 import {ActionTree, GetterTree, MutationTree} from 'vuex';
 import {ChatMessage} from './models/ChatMessage';
+import {WebSocketService} from './services/WebSocketService';
 
 Vue.use(Vuex);
 
 
 const host =
-    `http://${process.env.VUE_APP_SERVER}:${process.env.VUE_APP_SERVERPORT}/`;
+    `ws://${process.env.VUE_APP_SERVER}:${process.env.VUE_APP_SERVERPORT}/`;
 const debug = process.env.environment !== 'production';
 
-export const socket = io.connect(host);
+export const socket = new WebSocketService(host);
 
 // Store specifics
 export class State {
@@ -43,15 +44,15 @@ const mutationTree: MutationTree<State> = {
 const actionTree: ActionTree<State, any> = {
   async joinChat({commit}, userName: string) {
     commit('setUser', userName);
-    socket.emit('joinChat', userName);
-    socket.on('receiveMessage', (message: ChatMessage) => {
+    socket.on('sendMessage', (message: string) => {
       commit('addMessage', message);
     });
     socket.on('errorMessage', (message: string) => {
       commit('setError', message);
     });
+    socket.emit('joinChat', userName);
   },
-  async sendMessage({state}: ActionContext<State, any>, message: ChatMessage) {
+  async sendMessage({}: ActionContext<State, any>, message: ChatMessage) {
     socket.emit('sendMessage', message);
   },
 };

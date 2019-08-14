@@ -3,7 +3,7 @@
     <v-layout align-space-around justify-end column fill-height>
       <v-flex v-if="!usernameChoosen">
         <v-text-field label="Enter Username" v-model="usernameField"></v-text-field>
-        <v-btn color="info" @click="joinChat()">Join Chat</v-btn>
+        <v-btn color="info" @click="joinChat()" :disabled="usernameField.length < 1">Join Chat</v-btn>
       </v-flex>
       <v-flex v-if="usernameChoosen" scrollable>
         <h2>Chatting as: '{{username}}'</h2>
